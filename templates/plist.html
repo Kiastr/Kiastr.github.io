@@ -80,7 +80,7 @@
 {% endblock %}
 
 {% block content %}
-<div style="margin-bottom: 16px;">{{ blogBase['subTitle'] }}</div>
+<div class="subTitle">{{ blogBase['subTitle'] }}</div>
 <nav class="SideNav border">
 {% for num in postListJson -%}
 <a class="SideNav-item d-flex flex-items-center flex-justify-between" href="{{ postListJson[num]['postUrl']|e }}">
