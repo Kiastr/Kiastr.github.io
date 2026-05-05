@@ -1,0 +1,20 @@
+{
+    "title":"Kiastr's Minimal Blog",
+    "subTitle":"Less is More. 极简主义者的思考空间。",
+    "avatarUrl":"https://github.githubassets.com/favicons/favicon.svg",
+    "GMEEK_VERSION":"last",
+    "displayTitle":"Kiastr",
+    "homeUrl":"https://Kiastr.github.io",
+    "faviconUrl":"https://github.githubassets.com/favicons/favicon.svg",
+    "i18n":"CN",
+    "UTC":8,
+    "themeMode":"manual",
+    "dayTheme":"light",
+    "nightTheme":"dark",
+    "urlMode":"pinyin",
+    "style":"<style>#header{display:none}#footer{font-size:12px;opacity:0.6}#postBody{font-size:16px;line-height:1.6}</style>",
+    "indexStyle":"<style>#header{display:none}#footer{font-size:12px;opacity:0.6}.SideNav-item{padding:8px 0}</style>",
+    "bottomText":"Powered by Gmeek",
+    "showPostSource":1,
+    "needComment":1
+}
