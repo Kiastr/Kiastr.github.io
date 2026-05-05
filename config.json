@@ -12,8 +12,8 @@
     "dayTheme":"light",
     "nightTheme":"dark",
     "urlMode":"pinyin",
-    "style":"<style>#header{display:none}#footer{font-size:12px;opacity:0.6}#postBody{font-size:16px;line-height:1.6}</style>",
-    "indexStyle":"<style>#header{display:none}#footer{font-size:12px;opacity:0.6}.SideNav-item{padding:8px 0}</style>",
+    "style":"<style>#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--color-border-default);margin-bottom:16px;}#footer{font-size:12px;opacity:0.6}#postBody{font-size:16px;line-height:1.6}</style>",
+    "indexStyle":"<style>#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--color-border-default);margin-bottom:16px;}#footer{font-size:12px;opacity:0.6}.SideNav-item{padding:8px 0}</style>",
     "bottomText":"Powered by Gmeek",
     "showPostSource":1,
     "needComment":1
