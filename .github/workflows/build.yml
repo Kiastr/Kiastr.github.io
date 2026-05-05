@@ -27,9 +27,7 @@ jobs:
       - name: Install dependencies
         run: pip install requests PyGithub xpinyin feedgen jinja2 transliterate
       - name: Build Gmeek
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python Gmeek.py
+        run: python Gmeek.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
