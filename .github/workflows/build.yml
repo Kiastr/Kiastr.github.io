@@ -28,6 +28,15 @@ jobs:
         run: pip install requests PyGithub xpinyin feedgen jinja2 transliterate
       - name: Build Gmeek
         run: python Gmeek.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }}
+      - name: Configure Git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+      - name: Commit and Push docs
+        run: |
+          git add docs
+          git commit -m "Build Gmeek: Update docs folder" || echo "No changes to commit"
+          git push
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
