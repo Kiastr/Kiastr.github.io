@@ -28,7 +28,7 @@ def fetch_submissions(form_id, api_token):
 
 def main():
     # 从环境变量获取敏感信息
-    form_id = "sc1da0jaa4c"
+    form_id = "f/sc1da0jaa4c"
     api_token = os.environ.get("FORMINIT_API_TOKEN")
     
     if not api_token:
