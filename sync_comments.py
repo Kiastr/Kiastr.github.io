@@ -4,9 +4,9 @@ import os
 import sys
 
 def fetch_submissions(form_id, api_token):
-    # 根据错误提示，尝试 v2 的 Header 方式和 v1 的 Query Parameter 方式
-    # URL 增加 token 参数，Header 保持 X-API-Key
-    url = f"https://api.forminit.com/v1/forms/{form_id}?token={api_token}"
+    # 根据 Forminit 最新文档，Endpoint 应该是 /v1/submissions 并通过 formId 过滤
+    # 认证头使用 X-API-Key
+    url = f"https://api.forminit.com/v1/submissions?formId={form_id}"
     headers = {
         "X-API-Key": api_token,
         "Accept": "application/json"
