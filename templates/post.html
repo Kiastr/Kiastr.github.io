@@ -89,6 +89,7 @@
 }
 .guestbook-form input[type="text"],
 .guestbook-form input[type="email"],
+.guestbook-form input[type="file"],
 .guestbook-form textarea {
     width: 100%;
     padding: 8px;
@@ -155,7 +156,7 @@
             <p style="text-align: center; color: var(--color-fg-muted);">正在加载留言...</p>
         </div>
 
-        <form class="guestbook-form" action="https://forminit.com/f/injiglxlx41" method="POST">
+        <form class="guestbook-form" action="https://forminit.com/f/injiglxlx41" method="POST" enctype="multipart/form-data">
         <p>
             <label for="name">昵称 (可选):</label>
             <input type="text" id="name" name="fi-sender-fullName" placeholder="您的称呼">
@@ -167,6 +168,10 @@
         <p>
             <label for="comment">留言内容:</label>
             <textarea id="comment" name="fi-text-message" rows="5" required placeholder="在此输入您的留言..."></textarea>
+        </p>
+        <p>
+            <label for="file">附件 (可选):</label>
+            <input type="file" id="file" name="fi-file-attachment">
         </p>
 
         <p style="margin-top: 16px;">
