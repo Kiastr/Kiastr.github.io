@@ -143,14 +143,51 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 }
 
 
-/* 游客留言板样式 */
-.guestbook-section {
-    margin-top: 48px;
-    padding: 24px;
-    border: 1px solid var(--color-border-default);
-    border-radius: 6px;
-    background-color: var(--color-canvas-subtle);
-}
+    /* 游客留言板样式 */
+    .guestbook-section {
+        margin-top: 48px;
+        padding: 24px;
+        border: 1px solid var(--color-border-default);
+        border-radius: 6px;
+        background-color: var(--color-canvas-subtle);
+    }
+    .comment-list {
+        margin-bottom: 24px;
+        border-bottom: 1px solid var(--color-border-default);
+    }
+    .comment-item {
+        padding: 16px 0;
+        border-top: 1px solid var(--color-border-default);
+    }
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+    .comment-author {
+        font-weight: bold;
+        color: var(--color-fg-default);
+    }
+    .comment-date {
+        color: var(--color-fg-muted);
+    }
+    .comment-body {
+        font-size: 16px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+    }
+    .comment-attachment {
+        margin-top: 8px;
+        font-size: 14px;
+    }
+    .comment-attachment a {
+        color: var(--color-accent-fg);
+        text-decoration: none;
+    }
+    .comment-attachment a:hover {
+        text-decoration: underline;
+    }
 .guestbook-section h2 {
     font-size: 20px;
     margin-bottom: 16px;
@@ -262,10 +299,16 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
 <div class="comments" id="comments"></div>
 
-<!-- 游客留言板 -->
-<div class="guestbook-section">
-    <h2>游客留言板 (无需登录)</h2>
-    <form class="guestbook-form" action="https://forminit.com/f/sc1da0jaa4c" method="POST" enctype="multipart/form-data">
+    <!-- 游客留言板 -->
+    <div class="guestbook-section">
+        <h2>游客留言板 (无需登录)</h2>
+        
+        <!-- 留言展示区域 -->
+        <div id="guestbook-comments" class="comment-list">
+            <p style="text-align: center; color: var(--color-fg-muted);">正在加载留言...</p>
+        </div>
+
+        <form class="guestbook-form" action="https://forminit.com/f/sc1da0jaa4c" method="POST" enctype="multipart/form-data">
         <p>
             <label for="name">昵称 (可选):</label>
             <input type="text" id="name" name="fi-sender-fullName" placeholder="您的称呼">
