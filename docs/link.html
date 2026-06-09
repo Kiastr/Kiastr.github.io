@@ -132,19 +132,19 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <form class="guestbook-form" action="https://forminit.com/f/sc1da0jaa4c" method="POST" enctype="multipart/form-data">
         <p>
             <label for="name">昵称 (可选):</label>
-            <input type="text" id="name" name="name" placeholder="您的称呼">
+            <input type="text" id="name" name="fi-sender-fullName" placeholder="您的称呼">
         </p>
         <p>
             <label for="email">邮箱 (可选，用于接收回复):</label>
-            <input type="email" id="email" name="email" placeholder="email@example.com">
+            <input type="email" id="email" name="fi-sender-email" placeholder="email@example.com">
         </p>
         <p>
             <label for="comment">留言内容:</label>
-            <textarea id="comment" name="comment" rows="5" required placeholder="在此输入您的留言..."></textarea>
+            <textarea id="comment" name="fi-text-message" rows="5" required placeholder="在此输入您的留言..."></textarea>
         </p>
         <p>
             <label for="attachment">上传附件 (可选):</label>
-            <input type="file" id="attachment" name="attachment">
+            <input type="file" id="attachment" name="fi-file-attachment">
         </p>
         <p style="margin-top: 16px;">
             <button type="submit">提交留言</button>
