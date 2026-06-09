@@ -4,7 +4,7 @@ import os
 import sys
 
 def fetch_submissions(form_id, api_token):
-    # 根据 Forminit 最新文档，Endpoint 应该是 /v1/forms/ 并通过 formId 过滤
+    # 实测验证成功的 Endpoint：api.forminit.com/v1/forms/{formId}
     # 认证头使用 X-API-Key
     url = f"https://api.forminit.com/v1/forms/{form_id}"
     headers = {
@@ -15,6 +15,13 @@ def fetch_submissions(form_id, api_token):
     print(f"Fetching submissions for form: {form_id}")
     try:
         response = requests.get(url, headers=headers)
+        
+        # 处理 403 错误（通常是因为表单中还有残留的文件上传字段导致免费计划报错）
+        if response.status_code == 403:
+            print("Error: 403 Forbidden. This is likely because file uploads are enabled on a Free Plan.")
+            print("Please ensure you have removed the file upload block from your Forminit dashboard.")
+            return []
+            
         response.raise_for_status()
         data = response.json()
         
@@ -27,7 +34,6 @@ def fetch_submissions(form_id, api_token):
         return []
 
 def main():
-    # 从环境变量获取敏感信息
     form_id = "sc1da0jaa4c"
     api_token = os.environ.get("FORMINIT_API_TOKEN")
     
@@ -37,26 +43,19 @@ def main():
         
     submissions = fetch_submissions(form_id, api_token)
     
-    # 提取有用的字段并保存
     comments = []
     for sub in submissions:
-        # 获取表单字段内容
         answers = sub.get('answers', {})
         comment = {
             "name": answers.get('fi-sender-fullName', '匿名游客'),
             "email": answers.get('fi-sender-email', ''),
             "message": answers.get('fi-text-message', ''),
-            "date": sub.get('created_at', ''),
-            "attachment": answers.get('fi-file-attachment', '')
+            "date": sub.get('created_at', '')
         }
-        # 只保存有内容的留言
         if comment["message"]:
             comments.append(comment)
     
-    # 确保目录存在
     os.makedirs("docs", exist_ok=True)
-    
-    # 保存为 JSON 文件，供前端调用
     output_path = "docs/comments.json"
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(comments, f, ensure_ascii=False, indent=2)

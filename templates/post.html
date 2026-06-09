@@ -73,17 +73,7 @@
         line-height: 1.5;
         white-space: pre-wrap;
     }
-    .comment-attachment {
-        margin-top: 8px;
-        font-size: 14px;
-    }
-    .comment-attachment a {
-        color: var(--color-accent-fg);
-        text-decoration: none;
-    }
-    .comment-attachment a:hover {
-        text-decoration: underline;
-    }
+
 .guestbook-section h2 {
     font-size: 20px;
     margin-bottom: 16px;
@@ -178,10 +168,7 @@
             <label for="comment">留言内容:</label>
             <textarea id="comment" name="fi-text-message" rows="5" required placeholder="在此输入您的留言..."></textarea>
         </p>
-        <p>
-            <label for="attachment">上传附件 (可选):</label>
-            <input type="file" id="attachment" name="fi-file-attachment">
-        </p>
+
         <p style="margin-top: 16px;">
             <button type="submit">提交留言</button>
         </p>
@@ -290,18 +277,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const item = document.createElement('div');
                 item.className = 'comment-item';
                 
-                let attachmentHTML = '';
-                if (comment.attachment) {
-                    attachmentHTML = `<div class="comment-attachment">📎 附件: <a href="${comment.attachment}" target="_blank">点击查看</a></div>`;
-                }
-
                 item.innerHTML = `
                     <div class="comment-header">
                         <span class="comment-author">${comment.name}</span>
                         <span class="comment-date">${new Date(comment.date).toLocaleString()}</span>
                     </div>
                     <div class="comment-body">${comment.message}</div>
-                    ${attachmentHTML}
                 `;
                 commentContainer.appendChild(item);
             });
