@@ -4,9 +4,11 @@ import os
 import sys
 
 def fetch_submissions(form_id, api_token):
-    url = f"https://forminit.com/api/v1/forms/{form_id}/submissions"
+    # 根据 Forminit 最新文档，Endpoint 为 api.forminit.com/v1/forms/{formId}
+    # 认证头使用 X-API-Key
+    url = f"https://api.forminit.com/v1/forms/{form_id}"
     headers = {
-        "Authorization": f"Bearer {api_token}",
+        "X-API-Key": api_token,
         "Accept": "application/json"
     }
     
