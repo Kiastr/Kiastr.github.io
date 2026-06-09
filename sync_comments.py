@@ -6,7 +6,7 @@ import sys
 def fetch_submissions(form_id, api_token):
     # 根据 Forminit 最新文档，Endpoint 应该是 /v1/forms/ 并通过 formId 过滤
     # 认证头使用 X-API-Key
-    url = f"https://api.forminit.com/v1/forms/formId={form_id}"
+    url = f"https://api.forminit.com/v1/forms/{form_id}"
     headers = {
         "X-API-Key": api_token,
         "Accept": "application/json"
