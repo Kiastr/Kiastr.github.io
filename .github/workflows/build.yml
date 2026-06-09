@@ -10,6 +10,9 @@ on:
       - main
     paths:
       - 'config.json'
+  schedule:
+    - cron: '0 * * * *'  # 每小时自动同步一次留言
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,6 +29,12 @@ jobs:
           python-version: '3.10'
       - name: Install dependencies
         run: pip install requests PyGithub xpinyin feedgen jinja2 transliterate
+      
+      - name: Sync Forminit Comments
+        env:
+          FORMINIT_API_TOKEN: ${{ secrets.FORMINIT_API_TOKEN }}
+        run: python sync_comments.py
+
       - name: Build Gmeek
         run: python Gmeek.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }}
       - name: Configure Git
@@ -35,7 +44,7 @@ jobs:
       - name: Commit and Push docs
         run: |
           git add docs
-          git commit -m "Build Gmeek: Update docs folder" || echo "No changes to commit"
+          git commit -m "Build Gmeek: Update docs folder and sync comments" || echo "No changes to commit"
           git push
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
