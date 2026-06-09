@@ -34,7 +34,7 @@ def fetch_submissions(form_id, api_token):
         return []
 
 def main():
-    form_id = "sc1da0jaa4c"
+    form_id = "injiglxlx41"
     api_token = os.environ.get("FORMINIT_API_TOKEN")
     
     if not api_token:
