@@ -2,14 +2,16 @@ name: build Gmeek
 on:
   workflow_dispatch:
   issues:
-    types: [opened, edited]
+    types: [opened, edited, closed, deleted]
   issue_comment:
-    types: [created]
+    types: [created, deleted]
   push:
     branches:
       - main
     paths:
       - 'config.json'
+  schedule:
+    - cron: '0 0 * * *'
 
 jobs:
   build:
@@ -34,7 +36,15 @@ jobs:
         run: python sync_comments.py
 
       - name: Build Gmeek
-        run: python Gmeek.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }}
+        run: |
+          if [[ "${{ github.event_name }}" == "issues" ]]; then
+            ISSUE_NUM=${{ github.event.issue.number }}
+          elif [[ "${{ github.event_name }}" == "issue_comment" ]]; then
+            ISSUE_NUM=${{ github.event.issue.number }}
+          else
+            ISSUE_NUM=0
+          fi
+          python Gmeek.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }} --issue_number $ISSUE_NUM
       - name: Configure Git
         run: |
           git config user.name github-actions

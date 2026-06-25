@@ -421,15 +421,34 @@ class GMEEK():
 
     def runOne(self,number_str):
         print("====== start create static html ======")
-        issue=self.repo.get_issue(int(number_str))
-        if issue.state == "open":
-            listJsonName=self.addOnePostJson(issue)
-            self.createPostHtml(self.blogBase[listJsonName]["P"+number_str])
+        postKey="P"+number_str
+        try:
+            issue=self.repo.get_issue(int(number_str))
+            if issue.state == "open":
+                listJsonName=self.addOnePostJson(issue)
+                self.createPostHtml(self.blogBase[listJsonName][postKey])
+                self.createPlistHtml()
+                self.createFeedXml()
+                print("====== create static html end ======")
+            else:
+                print("====== issue is closed, removing post ======")
+                if postKey in self.blogBase["postListJson"]:
+                    del self.blogBase["postListJson"][postKey]
+                if postKey in self.blogBase["singeListJson"]:
+                    del self.blogBase["singeListJson"][postKey]
+                self.createPlistHtml()
+                self.createFeedXml()
+                print("====== post removed ======")
+        except Exception as e:
+            print("====== issue not found or error, removing post ======")
+            print(f"Error: {e}")
+            if postKey in self.blogBase["postListJson"]:
+                del self.blogBase["postListJson"][postKey]
+            if postKey in self.blogBase["singeListJson"]:
+                del self.blogBase["singeListJson"][postKey]
             self.createPlistHtml()
             self.createFeedXml()
-            print("====== create static html end ======")
-        else:
-            print("====== issue is closed ======")
+            print("====== post removed ======")
 
     def createFileName(self,issue,useLabel=False):
         if useLabel==True:
