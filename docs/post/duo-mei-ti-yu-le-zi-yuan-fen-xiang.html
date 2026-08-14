@@ -134,20 +134,19 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 .title-right .circle{padding: 14px 16px;margin-right:8px;}
 #postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
 #postBody hr{height:2px;}
-#tcomment{margin-top:64px;clear:both;width:100%;box-sizing:border-box;}
-/* 第三方插件注入的浮动浏览量元素（GmeekVercount）需 clear，否则挤压评论框 */
-#busuanzi_container_page_pv{clear:both;}
+#tcomment{margin-top:64px;display:flow-root;width:100%;box-sizing:border-box;}
+/* display:flow-root 创建独立 BFC，确保浏览量/bottomText 两个浮动元素不会侵入评论区 */
 /* Twikoo 输入框在嵌套容器内强制全宽，避免被外层 box-sizing 截断 */
 #tcomment .tk-input,#tcomment .tk-textarea,#tcomment input,#tcomment textarea{max-width:100%;box-sizing:border-box;}
 .g-emoji{font-size:24px;}
 @media (max-width: 600px) {
     body {padding: 8px;}
     .postTitle{font-size:24px;}
-    #tcomment{clear:both;width:100%;}
-    /* Twikoo 昵称/邮箱/网址三栏在手机端改为整行，避免输入框被挤压截断 */
-    #tcomment .tk-row{display:block;}
-    #tcomment .tk-input-el{width:100% !important;margin-right:0 !important;}
-    #tcomment textarea,#tcomment input{max-width:100%;box-sizing:border-box;}
+    #tcomment{display:flow-root;width:100%;}
+    /* Twikoo 昵称/邮箱/网址三栏在手机端改为整行（Twikoo 自带 767px 断点，此处 600px 兜底） */
+    #tcomment .tk-meta-input{flex-direction:column !important;}
+    #tcomment .tk-meta-input .el-input{width:100% !important;margin-left:0 !important;margin-top:.5rem !important;}
+    #tcomment .tk-meta-input .el-input:first-child{margin-top:0 !important;}
 }
 
 
