@@ -19,11 +19,20 @@
 .title-right .circle{padding: 14px 16px;margin-right:8px;}
 #postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
 #postBody hr{height:2px;}
-#tcomment{margin-top:64px;}
+#tcomment{margin-top:64px;clear:both;width:100%;box-sizing:border-box;}
+/* 第三方插件注入的浮动浏览量元素（GmeekVercount）需 clear，否则挤压评论框 */
+#busuanzi_container_page_pv{clear:both;}
+/* Twikoo 输入框在嵌套容器内强制全宽，避免被外层 box-sizing 截断 */
+#tcomment .tk-input,#tcomment .tk-textarea,#tcomment input,#tcomment textarea{max-width:100%;box-sizing:border-box;}
 .g-emoji{font-size:24px;}
 @media (max-width: 600px) {
     body {padding: 8px;}
     .postTitle{font-size:24px;}
+    #tcomment{clear:both;width:100%;}
+    /* Twikoo 昵称/邮箱/网址三栏在手机端改为整行，避免输入框被挤压截断 */
+    #tcomment .tk-row{display:block;}
+    #tcomment .tk-input-el{width:100% !important;margin-right:0 !important;}
+    #tcomment textarea,#tcomment input{max-width:100%;box-sizing:border-box;}
 }
 {% if blogBase['highlight']!=0 -%}
 .copy-feedback {
