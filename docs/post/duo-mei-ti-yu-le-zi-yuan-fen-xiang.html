@@ -316,7 +316,7 @@ function tweakMailPlaceholder(){
         '#tcomment-wrap .tk-meta-input input[name="mail"], #tcomment-wrap .tk-meta-input input[type="email"]'
     );
     if(mailInput && !mailInput.dataset.mailRequired){
-        mailInput.setAttribute('placeholder', '邮箱（必填，用于接收回复）');
+        mailInput.setAttribute('placeholder', '必填，用于接收回复');
         mailInput.dataset.mailRequired = '1';
     }
 }
