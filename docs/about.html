@@ -34,15 +34,16 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 .title-right .circle{padding: 14px 16px;margin-right:8px;}
 #postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
 #postBody hr{height:2px;}
-#tcomment{margin-top:64px;display:flow-root;width:100%;box-sizing:border-box;}
-/* display:flow-root 创建独立 BFC，确保浏览量/bottomText 两个浮动元素不会侵入评论区 */
+/* 外层包裹：Twikoo 挂载时会用 .tk-main 替换 #tcomment 本身，故 display:flow-root 必须放在持久存在的包裹层上 */
+#tcomment-wrap{margin-top:64px;display:flow-root;width:100%;box-sizing:border-box;}
+#tcomment{width:100%;box-sizing:border-box;}
 /* Twikoo 输入框在嵌套容器内强制全宽，避免被外层 box-sizing 截断 */
 #tcomment .tk-input,#tcomment .tk-textarea,#tcomment input,#tcomment textarea{max-width:100%;box-sizing:border-box;}
 .g-emoji{font-size:24px;}
 @media (max-width: 600px) {
     body {padding: 8px;}
     .postTitle{font-size:24px;}
-    #tcomment{display:flow-root;width:100%;}
+    #tcomment-wrap{display:flow-root;width:100%;}
     /* Twikoo 昵称/邮箱/网址三栏在手机端改为整行（Twikoo 自带 767px 断点，此处 600px 兜底） */
     #tcomment .tk-meta-input{flex-direction:column !important;}
     #tcomment .tk-meta-input .el-input{width:100% !important;margin-left:0 !important;margin-top:.5rem !important;}
@@ -88,8 +89,10 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 
+<div id="tcomment-wrap">
 <div id="tcomment"></div>
 <div id="comments-utterances" hidden></div>
+</div>
 
 </div>
     <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://Kiastr.github.io">Kiastr's Space</a></div>
