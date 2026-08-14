@@ -24,8 +24,6 @@
 #busuanzi_container_page_pv{clear:both;}
 /* Twikoo 输入框在嵌套容器内强制全宽，避免被外层 box-sizing 截断 */
 #tcomment .tk-input,#tcomment .tk-textarea,#tcomment input,#tcomment textarea{max-width:100%;box-sizing:border-box;}
-/* Twikoo 输入框 placeholder 浅灰提示（选填项） */
-#tcomment input::placeholder,#tcomment textarea::placeholder{color:#8b949e !important;opacity:1 !important;}
 .g-emoji{font-size:24px;}
 @media (max-width: 600px) {
     body {padding: 8px;}
@@ -136,17 +134,6 @@ function loadTwikoo(){
                 path: location.pathname,
                 lang: '{% if blogBase['i18n']=='CN' %}zh-CN{% elif blogBase['i18n']=='RU' %}ru{% else %}en{% endif %}'
             });
-            // 把邮箱/网址占位提示改为明确的「选填」，浅灰已由上方 CSS 控制
-            const tweakMetaPlaceholders = () => {
-                document.querySelectorAll('#tcomment .tk-input-el input').forEach(inp => {
-                    const raw = inp.getAttribute('placeholder') || '';
-                    const ph = raw.toLowerCase();
-                    if((ph.includes('邮箱')||ph.includes('mail')||ph.includes('e-mail')) && !raw.includes('选填')) inp.setAttribute('placeholder','邮箱（选填）');
-                    if((ph.includes('网址')||ph.includes('网站')||ph.includes('url')||ph.includes('link')) && !raw.includes('选填')) inp.setAttribute('placeholder','网址（选填）');
-                });
-            };
-            setTimeout(tweakMetaPlaceholders, 600);
-            setTimeout(tweakMetaPlaceholders, 1500);
             // 6s 内未渲染（后端不可达/报错）则降级到 Utterances
             setTimeout(() => {
                 if(!document.querySelector('#tcomment .tk-') && !document.querySelector('#tcomment .twikoo')){
