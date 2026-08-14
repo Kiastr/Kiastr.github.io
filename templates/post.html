@@ -120,6 +120,32 @@ function loadUtterancesFallback(){
     uttFallbackEl.appendChild(s);
 }
 
+// Twikoo 渲染后，将「邮箱」框提示改为必填（用于接收回复通知）。
+// 注意：Twikoo 会用 requiredFields 把 placeholder 覆盖为纯"必填/选填"并丢失字段名，
+// 因此按 name="mail"（或 type="email"）稳定命中，而非按 placeholder 文本匹配。
+function tweakMailPlaceholder(){
+    const mailInput = document.querySelector(
+        '#tcomment-wrap .tk-meta-input input[name="mail"], #tcomment-wrap .tk-meta-input input[type="email"]'
+    );
+    if(mailInput && !mailInput.dataset.mailRequired){
+        mailInput.setAttribute('placeholder', '邮箱（必填，用于接收回复）');
+        mailInput.dataset.mailRequired = '1';
+    }
+}
+function watchMailPlaceholder(){
+    tweakMailPlaceholder();
+    const wrap = document.getElementById('tcomment-wrap');
+    if(wrap && window.MutationObserver){
+        new MutationObserver(function(){ tweakMailPlaceholder(); })
+            .observe(wrap, {childList:true, subtree:true});
+    }
+    let n = 0;
+    const t = setInterval(function(){
+        tweakMailPlaceholder();
+        if(++n > 25) clearInterval(t);
+    }, 300);
+}
+
 function loadTwikoo(){
     // 未配置后端 -> 直接走 Utterances 备胎
     if(!TWIKOO_ENV_ID || TWIKOO_ENV_ID.indexOf("在此填入")===0){
@@ -136,6 +162,8 @@ function loadTwikoo(){
                 path: location.pathname,
                 lang: '{% if blogBase['i18n']=='CN' %}zh-CN{% elif blogBase['i18n']=='RU' %}ru{% else %}en{% endif %}'
             });
+            // 渲染后立即改写邮箱框提示为「必填，用于接收回复」
+            watchMailPlaceholder();
             // 6s 内未渲染（后端不可达/报错）则降级到 Utterances
             setTimeout(() => {
                 if(!document.querySelector('#tcomment .tk-') && !document.querySelector('#tcomment .twikoo')){
