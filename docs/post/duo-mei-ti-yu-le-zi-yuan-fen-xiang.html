@@ -134,8 +134,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 .title-right .circle{padding: 14px 16px;margin-right:8px;}
 #postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
 #postBody hr{height:2px;}
-#cmButton{height:48px;margin-top:48px;}
-#comments{margin-top:64px;}
+#tcomment{margin-top:64px;}
 .g-emoji{font-size:24px;}
 @media (max-width: 600px) {
     body {padding: 8px;}
@@ -143,77 +142,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 }
 
 
-    /* 游客留言板样式 */
-    .guestbook-section {
-        margin-top: 48px;
-        padding: 24px;
-        border: 1px solid var(--color-border-default);
-        border-radius: 6px;
-        background-color: var(--color-canvas-subtle);
-    }
-    .comment-list {
-        margin-bottom: 24px;
-        border-bottom: 1px solid var(--color-border-default);
-    }
-    .comment-item {
-        padding: 16px 0;
-        border-top: 1px solid var(--color-border-default);
-    }
-    .comment-header {
-        display: flex;
-        justify-content: space-between;
-        font-size: 14px;
-        margin-bottom: 8px;
-    }
-    .comment-author {
-        font-weight: bold;
-        color: var(--color-fg-default);
-    }
-    .comment-date {
-        color: var(--color-fg-muted);
-    }
-    .comment-body {
-        font-size: 16px;
-        line-height: 1.5;
-        white-space: pre-wrap;
-    }
-
-.guestbook-section h2 {
-    font-size: 20px;
-    margin-bottom: 16px;
-    border-bottom: none;
-}
-.guestbook-form p {
-    margin-bottom: 12px;
-}
-.guestbook-form label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-.guestbook-form input[type="text"],
-.guestbook-form input[type="email"],
-.guestbook-form input[type="file"],
-.guestbook-form textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid var(--color-border-default);
-    border-radius: 4px;
-    background-color: var(--color-canvas-default);
-    color: var(--color-fg-default);
-}
-.guestbook-form button {
-    background-color: var(--color-btn-primary-bg);
-    color: var(--color-btn-primary-text);
-    padding: 10px 20px;
-    border: 1px solid var(--color-btn-primary-border);
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-}
-.guestbook-form button:hover {
-    background-color: var(--color-btn-primary-hover-bg);
-}
+    /* Twikoo 主评论 + Utterances 隐性备胎，无需额外样式 */
 </style>
 <style>#postBody{font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.8; color: var(--text-color); } #postBody img { border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); } .markdown-body h1, .markdown-body h2, .markdown-body h3 { font-family: 'Noto Serif SC', serif !important; font-weight: 700 !important; border-bottom: none !important; } </style>
 
@@ -287,41 +216,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div style="font-size:small;margin-top:8px;float:right;">Less is More · Kiastr</div>
 
 
-<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
-<div class="comments" id="comments"></div>
-
-    <!-- 游客留言板 -->
-    <div class="guestbook-section">
-        <h2>游客留言板 (无需登录)</h2>
-        
-        <!-- 留言展示区域 -->
-        <div id="guestbook-comments" class="comment-list">
-            <p style="text-align: center; color: var(--color-fg-muted);">正在加载留言...</p>
-        </div>
-
-        <form class="guestbook-form" action="https://forminit.com/f/injiglxlx41" method="POST" enctype="multipart/form-data">
-        <p>
-            <label for="name">昵称 (可选):</label>
-            <input type="text" id="name" name="fi-sender-fullName" placeholder="您的称呼">
-        </p>
-        <p>
-            <label for="email">邮箱 (可选，用于接收回复):</label>
-            <input type="email" id="email" name="fi-sender-email" placeholder="email@example.com">
-        </p>
-        <p>
-            <label for="comment">留言内容:</label>
-            <textarea id="comment" name="fi-text-message" rows="5" required placeholder="在此输入您的留言..."></textarea>
-        </p>
-        <p>
-            <label for="file">附件 (可选):</label>
-            <input type="file" id="file" name="fi-file-attachment">
-        </p>
-
-        <p style="margin-top: 16px;">
-            <button type="submit">提交留言</button>
-        </p>
-    </form>
-</div>
+<div id="tcomment"></div>
+<div id="comments-utterances" hidden></div>
 
 </div>
     <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://Kiastr.github.io">Kiastr's Space</a></div>
@@ -378,43 +274,57 @@ document.getElementById("pathHome").setAttribute("d",IconList["home"]);
 document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
 
 
+// ===== Twikoo 主评论 + Utterances 隐性备胎 =====
+const TWIKOO_ENV_ID = "https://twikoo-pi-mauve.vercel.app";
+const tcommentEl = document.getElementById('tcomment');
+const uttFallbackEl = document.getElementById('comments-utterances');
 
-function openComments(){
-    cm=document.getElementById("comments");
-    cmButton=document.getElementById("cmButton");
-    cmButton.disabled=true;
-    cmButton.innerHTML="loading";
-    span=document.createElement("span");
-    span.setAttribute("class","AnimatedEllipsis");
-    cmButton.appendChild(span);
-
-    script=document.createElement("script");
-    script.setAttribute("src","https://utteranc.es/client.js");
-    script.setAttribute("repo","Kiastr/Kiastr.github.io");
-    script.setAttribute("issue-term","title");
+// Utterances 仅在 Twikoo 后端不可用/未配置时作为隐性备胎加载
+function loadUtterancesFallback(){
+    if(uttFallbackEl.dataset.loaded) return;
+    uttFallbackEl.dataset.loaded = "1";
+    uttFallbackEl.hidden = false;
+    const s = document.createElement("script");
+    s.src = "https://utteranc.es/client.js";
+    s.setAttribute("repo","Kiastr/Kiastr.github.io");
+    s.setAttribute("issue-term","title");
     
-    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
-    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
-    else{script.setAttribute("theme","preferred-color-scheme");}
+    const _t = localStorage.getItem("meek_theme");
+    s.setAttribute("theme", _t==="dark" ? "dark-blue" : _t==="light" ? "github-light" : "preferred-color-scheme");
     
-    script.setAttribute("crossorigin","anonymous");
-    script.setAttribute("async","");
-    cm.appendChild(script);
-
-    int=self.setInterval("iFrameLoading()",200);
+    s.crossOrigin = "anonymous";
+    s.async = true;
+    uttFallbackEl.appendChild(s);
 }
 
-function iFrameLoading(){
-    var utterances=document.getElementsByClassName('utterances');
-    if(utterances.length==1){
-        if(utterances[0].style.height!=""){
-            utterancesLoad=1;
-            int=window.clearInterval(int);
-            document.getElementById("cmButton").style.display="none";
-            console.log("utterances Load OK");
-        }
+function loadTwikoo(){
+    // 未配置后端 -> 直接走 Utterances 备胎
+    if(!TWIKOO_ENV_ID || TWIKOO_ENV_ID.indexOf("在此填入")===0){
+        loadUtterancesFallback();
+        return;
     }
+    const sc = document.createElement("script");
+    sc.src = "https://cdn.jsdelivr.net/npm/twikoo@1.6.41/dist/twikoo.all.min.js";
+    sc.onload = () => {
+        try{
+            twikoo.init({
+                envId: TWIKOO_ENV_ID,
+                el: '#tcomment',
+                path: location.pathname,
+                lang: 'zh-CN'
+            });
+            // 6s 内未渲染（后端不可达/报错）则降级到 Utterances
+            setTimeout(() => {
+                if(!document.querySelector('#tcomment .tk-') && !document.querySelector('#tcomment .twikoo')){
+                    loadUtterancesFallback();
+                }
+            }, 6000);
+        }catch(e){ loadUtterancesFallback(); }
+    };
+    sc.onerror = () => loadUtterancesFallback();
+    document.body.appendChild(sc);
 }
+loadTwikoo();
 
 
 
