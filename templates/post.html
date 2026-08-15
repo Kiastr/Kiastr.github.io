@@ -34,24 +34,27 @@
     #tcomment .tk-meta-input .el-input{width:100% !important;margin-left:0 !important;margin-top:.5rem !important;}
     #tcomment .tk-meta-input .el-input:first-child{margin-top:0 !important;}
 }
-/* Forminit 隐性备胎简洁样式（Twikoo 不可用时与 Utterances 并列出现） */
-#comments-forminit{margin-top:32px;}
-#comments-forminit .fi-card{border:1px solid var(--color-border-default);border-radius:10px;padding:20px;background:var(--color-canvas-subtle);}
-#comments-forminit .fi-title{font-size:15px;font-weight:600;margin:0 0 14px;}
-#comments-forminit .fi-row{margin-bottom:12px;}
-#comments-forminit .fi-row--msg{position:relative;}
-#comments-forminit .fi-input{width:100%;padding:9px 12px;border:1px solid var(--color-border-default);border-radius:7px;background:var(--color-canvas-default);color:var(--color-fg-default);box-sizing:border-box;font-size:14px;font-family:inherit;}
-#comments-forminit textarea.fi-input{resize:vertical;min-height:88px;padding-right:44px;}
-#comments-forminit .fi-add{position:absolute;right:8px;bottom:8px;width:28px;height:28px;border:none;border-radius:50%;background:var(--color-btn-primary-bg);color:var(--color-btn-primary-text);font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
-#comments-forminit .fi-add:hover{opacity:.92;}
-#comments-forminit .fi-file{margin:8px 0 0;font-size:13px;color:var(--color-fg-muted);display:flex;align-items:center;gap:8px;}
-#comments-forminit .fi-file .fi-x{border:none;background:transparent;color:var(--color-fg-muted);cursor:pointer;font-size:13px;padding:0 2px;}
+/* Forminit 隐性备胎极简样式（Twikoo 不可用时与 Utterances 并列出现） */
+#comments-forminit{margin-top:48px;padding-top:18px;border-top:1px solid var(--color-border-muted);}
+#comments-forminit .fi-note{margin:0 0 20px;font-size:12px;color:var(--color-fg-muted);letter-spacing:.2px;}
+#comments-forminit .fi-row{margin-bottom:16px;}
+#comments-forminit .fi-row--msg{position:relative;margin-bottom:8px;}
+#comments-forminit .fi-input{width:100%;padding:7px 2px;border:none;border-bottom:1px solid var(--color-border-default);border-radius:0;background:transparent;color:var(--color-fg-default);box-sizing:border-box;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;}
+#comments-forminit .fi-input:focus{border-bottom-color:var(--color-accent-fg);}
+#comments-forminit .fi-input::placeholder{color:var(--color-fg-subtle);}
+#comments-forminit textarea.fi-input{resize:vertical;min-height:52px;padding-right:28px;line-height:1.6;}
+#comments-forminit .fi-add{position:absolute;right:0;bottom:8px;width:22px;height:22px;border:none;border-radius:50%;background:transparent;color:var(--color-fg-muted);font-size:18px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:color .2s,background-color .2s;}
+#comments-forminit .fi-add:hover{color:var(--color-fg-default);background-color:var(--color-neutral-muted);}
+#comments-forminit .fi-foot{display:flex;align-items:center;justify-content:flex-end;gap:10px;}
+#comments-forminit .fi-file{margin:0 auto 0 0;font-size:12px;display:flex;align-items:center;gap:8px;min-width:0;}
+#comments-forminit .fi-file .fi-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--color-fg-default);}
+#comments-forminit .fi-file .fi-size{color:var(--color-fg-subtle);flex-shrink:0;}
+#comments-forminit .fi-file .fi-x{border:none;background:transparent;color:var(--color-fg-muted);cursor:pointer;font-size:13px;padding:0 2px;flex-shrink:0;}
 #comments-forminit .fi-file .fi-x:hover{color:var(--color-danger-fg);}
 #comments-forminit .fi-err{color:var(--color-danger-fg);font-size:12px;margin:6px 0 0;}
-#comments-forminit .fi-btn{background:var(--color-btn-primary-bg);color:var(--color-btn-primary-text);border:1px solid var(--color-btn-primary-border);border-radius:7px;padding:9px 18px;font-weight:600;cursor:pointer;font-size:14px;}
-#comments-forminit .fi-btn:hover{opacity:.92;}
+#comments-forminit .fi-btn{background:transparent;color:var(--color-fg-default);border:1px solid var(--color-border-default);border-radius:6px;padding:5px 14px;font-weight:500;cursor:pointer;font-size:13px;flex-shrink:0;transition:border-color .2s,color .2s;}
+#comments-forminit .fi-btn:hover{border-color:var(--color-accent-fg);color:var(--color-accent-fg);}
 #comments-forminit .fi-ok{color:var(--color-success-fg);margin:8px 0 0;font-size:14px;}
-#comments-forminit .fi-note{margin:0 0 16px;font-size:12px;color:var(--color-fg-muted);line-height:1.5;}
 {% if blogBase['highlight']!=0 -%}
 .copy-feedback {
     display: none;
@@ -147,43 +150,43 @@ function loadForminitFallback(){
     forminitEl.dataset.loaded = "1";
     forminitEl.hidden = false;
     forminitEl.innerHTML =
-      '<div class="fi-card">' +
-        '<p class="fi-title">Forminit 留言（备用渠道）</p>' +
-        '<p class="fi-note">无账号游客评论处，不做展示</p>' +
-        '<form class="fi-form" action="https://forminit.com/f/injiglxlx41" method="POST" target="_blank">' +
-          '<div class="fi-row"><input class="fi-input" type="text" name="fi-sender-fullName" placeholder="昵称（选填）"></div>' +
-          '<div class="fi-row"><input class="fi-input" type="email" name="fi-sender-email" placeholder="邮箱（选填，用于接收回复）"></div>' +
-          '<div class="fi-row fi-row--msg"><textarea class="fi-input" name="fi-text-message" placeholder="写下你的留言…" required></textarea><button type="button" class="fi-add" title="添加附件">+</button><input type="file" name="fi-file-attachment" class="fi-file-input" hidden></div>' +
-          '<div class="fi-file" hidden></div>' +
-          '<div class="fi-err" hidden></div>' +
-          '<button class="fi-btn" type="submit">提交留言</button>' +
-        '</form>' +
-      '</div>';
+      '<p class="fi-note">备用留言 · 无账号游客评论处，不做展示</p>' +
+      '<form class="fi-form" action="https://forminit.com/f/injiglxlx41" method="POST" target="_blank">' +
+        '<div class="fi-row"><input class="fi-input" type="text" name="fi-sender-fullName" placeholder="昵称（选填）"></div>' +
+        '<div class="fi-row"><input class="fi-input" type="email" name="fi-sender-email" placeholder="邮箱（选填，用于接收回复）"></div>' +
+        '<div class="fi-row fi-row--msg"><textarea class="fi-input" name="fi-text-message" placeholder="写下你的留言…" required></textarea><button type="button" class="fi-add" title="添加附件">+</button><input type="file" name="fi-file-attachment" class="fi-file-input" hidden></div>' +
+        '<div class="fi-err" hidden></div>' +
+        '<div class="fi-foot"><div class="fi-file" hidden></div><button class="fi-btn" type="submit">提交留言</button></div>' +
+      '</form>';
     // 附件：右下角加号 → 选文件 → 限制大小并展示（字段名沿用 Forminit 的 fi-file-attachment）
     const addBtn = forminitEl.querySelector('.fi-add');
     const fileInput = forminitEl.querySelector('.fi-file-input');
     const fileBox = forminitEl.querySelector('.fi-file');
     const errBox = forminitEl.querySelector('.fi-err');
     const FI_MAX = 5 * 1024 * 1024;
+    const clearFile = () => { fileInput.value=''; fileBox.hidden=true; fileBox.textContent=''; };
     addBtn.addEventListener('click', () => fileInput.click());
     fileInput.addEventListener('change', () => {
       errBox.hidden = true;
       const f = fileInput.files && fileInput.files[0];
       if(!f) return;
       if(f.size > FI_MAX){
-        fileInput.value = '';
-        fileBox.hidden = true; fileBox.innerHTML = '';
+        clearFile();
         errBox.textContent = '文件过大，最大 ' + (FI_MAX/1024/1024) + 'MB（当前 ' + (f.size/1024/1024).toFixed(1) + 'MB）';
         errBox.hidden = false;
         return;
       }
       const kb = Math.max(1, Math.round(f.size/1024));
+      fileBox.textContent = '';
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'fi-name'; nameSpan.textContent = f.name;
+      const sizeSpan = document.createElement('span');
+      sizeSpan.className = 'fi-size'; sizeSpan.textContent = kb + 'KB';
+      const xBtn = document.createElement('button');
+      xBtn.type = 'button'; xBtn.className = 'fi-x'; xBtn.title = '移除'; xBtn.textContent = '✕';
+      xBtn.addEventListener('click', clearFile);
+      fileBox.append(nameSpan, sizeSpan, xBtn);
       fileBox.hidden = false;
-      fileBox.innerHTML = '附件：' + f.name + '（' + kb + 'KB）<button type="button" class="fi-x" title="移除">✕</button>';
-      fileBox.querySelector('.fi-x').addEventListener('click', () => {
-        fileInput.value = '';
-        fileBox.hidden = true; fileBox.innerHTML = '';
-      });
     });
 }
 
