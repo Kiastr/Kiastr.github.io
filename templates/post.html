@@ -39,8 +39,15 @@
 #comments-forminit .fi-card{border:1px solid var(--color-border-default);border-radius:10px;padding:20px;background:var(--color-canvas-subtle);}
 #comments-forminit .fi-title{font-size:15px;font-weight:600;margin:0 0 14px;}
 #comments-forminit .fi-row{margin-bottom:12px;}
+#comments-forminit .fi-row--msg{position:relative;}
 #comments-forminit .fi-input{width:100%;padding:9px 12px;border:1px solid var(--color-border-default);border-radius:7px;background:var(--color-canvas-default);color:var(--color-fg-default);box-sizing:border-box;font-size:14px;font-family:inherit;}
-#comments-forminit textarea.fi-input{resize:vertical;min-height:88px;}
+#comments-forminit textarea.fi-input{resize:vertical;min-height:88px;padding-right:44px;}
+#comments-forminit .fi-add{position:absolute;right:8px;bottom:8px;width:28px;height:28px;border:none;border-radius:50%;background:var(--color-btn-primary-bg);color:var(--color-btn-primary-text);font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
+#comments-forminit .fi-add:hover{opacity:.92;}
+#comments-forminit .fi-file{margin:8px 0 0;font-size:13px;color:var(--color-fg-muted);display:flex;align-items:center;gap:8px;}
+#comments-forminit .fi-file .fi-x{border:none;background:transparent;color:var(--color-fg-muted);cursor:pointer;font-size:13px;padding:0 2px;}
+#comments-forminit .fi-file .fi-x:hover{color:var(--color-danger-fg);}
+#comments-forminit .fi-err{color:var(--color-danger-fg);font-size:12px;margin:6px 0 0;}
 #comments-forminit .fi-btn{background:var(--color-btn-primary-bg);color:var(--color-btn-primary-text);border:1px solid var(--color-btn-primary-border);border-radius:7px;padding:9px 18px;font-weight:600;cursor:pointer;font-size:14px;}
 #comments-forminit .fi-btn:hover{opacity:.92;}
 #comments-forminit .fi-ok{color:var(--color-success-fg);margin:8px 0 0;font-size:14px;}
@@ -146,10 +153,38 @@ function loadForminitFallback(){
         '<form class="fi-form" action="https://forminit.com/f/injiglxlx41" method="POST" target="_blank">' +
           '<div class="fi-row"><input class="fi-input" type="text" name="fi-sender-fullName" placeholder="昵称（选填）"></div>' +
           '<div class="fi-row"><input class="fi-input" type="email" name="fi-sender-email" placeholder="邮箱（选填，用于接收回复）"></div>' +
-          '<div class="fi-row"><textarea class="fi-input" name="fi-text-message" placeholder="写下你的留言…" required></textarea></div>' +
+          '<div class="fi-row fi-row--msg"><textarea class="fi-input" name="fi-text-message" placeholder="写下你的留言…" required></textarea><button type="button" class="fi-add" title="添加附件">+</button><input type="file" name="fi-file-attachment" class="fi-file-input" hidden></div>' +
+          '<div class="fi-file" hidden></div>' +
+          '<div class="fi-err" hidden></div>' +
           '<button class="fi-btn" type="submit">提交留言</button>' +
         '</form>' +
       '</div>';
+    // 附件：右下角加号 → 选文件 → 限制大小并展示（字段名沿用 Forminit 的 fi-file-attachment）
+    const addBtn = forminitEl.querySelector('.fi-add');
+    const fileInput = forminitEl.querySelector('.fi-file-input');
+    const fileBox = forminitEl.querySelector('.fi-file');
+    const errBox = forminitEl.querySelector('.fi-err');
+    const FI_MAX = 5 * 1024 * 1024;
+    addBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', () => {
+      errBox.hidden = true;
+      const f = fileInput.files && fileInput.files[0];
+      if(!f) return;
+      if(f.size > FI_MAX){
+        fileInput.value = '';
+        fileBox.hidden = true; fileBox.innerHTML = '';
+        errBox.textContent = '文件过大，最大 ' + (FI_MAX/1024/1024) + 'MB（当前 ' + (f.size/1024/1024).toFixed(1) + 'MB）';
+        errBox.hidden = false;
+        return;
+      }
+      const kb = Math.max(1, Math.round(f.size/1024));
+      fileBox.hidden = false;
+      fileBox.innerHTML = '附件：' + f.name + '（' + kb + 'KB）<button type="button" class="fi-x" title="移除">✕</button>';
+      fileBox.querySelector('.fi-x').addEventListener('click', () => {
+        fileInput.value = '';
+        fileBox.hidden = true; fileBox.innerHTML = '';
+      });
+    });
 }
 
 // Twikoo 渲染后，将「邮箱」框提示改为必填（用于接收回复通知）。
