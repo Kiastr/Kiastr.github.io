@@ -38,6 +38,9 @@
 #comments-forminit{margin-top:48px;padding-top:18px;border-top:1px solid var(--color-border-muted);}
 #comments-forminit .fi-note{margin:0 0 20px;font-size:12px;color:var(--color-fg-muted);letter-spacing:.2px;}
 #comments-forminit .fi-row{margin-bottom:16px;}
+#comments-forminit .fi-row--meta{display:flex;gap:20px;}
+#comments-forminit .fi-row--meta .fi-input--nick{flex:0 0 36%;}
+#comments-forminit .fi-row--meta .fi-input--mail{flex:1;min-width:0;}
 #comments-forminit .fi-row--msg{position:relative;margin-bottom:8px;}
 #comments-forminit .fi-input{width:100%;padding:7px 2px;border:none;border-bottom:1px solid var(--color-border-default);border-radius:0;background:transparent;color:var(--color-fg-default);box-sizing:border-box;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;}
 #comments-forminit .fi-input:focus{border-bottom-color:var(--color-accent-fg);}
@@ -152,8 +155,7 @@ function loadForminitFallback(){
     forminitEl.innerHTML =
       '<p class="fi-note">备用留言 · 无账号游客评论处，不做展示</p>' +
       '<form class="fi-form" action="https://forminit.com/f/injiglxlx41" method="POST" target="_blank">' +
-        '<div class="fi-row"><input class="fi-input" type="text" name="fi-sender-fullName" placeholder="昵称（选填）"></div>' +
-        '<div class="fi-row"><input class="fi-input" type="email" name="fi-sender-email" placeholder="邮箱（选填，用于接收回复）"></div>' +
+        '<div class="fi-row fi-row--meta"><input class="fi-input fi-input--nick" type="text" name="fi-sender-fullName" placeholder="昵称（选填）"><input class="fi-input fi-input--mail" type="email" name="fi-sender-email" placeholder="邮箱（选填，用于接收回复）"></div>' +
         '<div class="fi-row fi-row--msg"><textarea class="fi-input" name="fi-text-message" placeholder="写下你的留言…" required></textarea><button type="button" class="fi-add" title="添加附件">+</button><input type="file" name="fi-file-attachment" class="fi-file-input" hidden></div>' +
         '<div class="fi-err" hidden></div>' +
         '<div class="fi-foot"><div class="fi-file" hidden></div><button class="fi-btn" type="submit">提交留言</button></div>' +
