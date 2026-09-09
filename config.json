@@ -19,7 +19,7 @@
     "bottomText": "Less is More · Kiastr",
     "showPostSource": 1,
     "needComment": 1,
-    "twikooEnvId": "https://twikoo-vercel-cloudflare.2652816003.workers.dev",
+    "twikooEnvId": "https://site-comments.pages.dev",
     "singlePage": [
         "about",
         "link"
